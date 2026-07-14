@@ -85,7 +85,7 @@ const COLORES_CONFETI = ['#ffd700', '#ff6d00', '#00e676', '#2196f3', '#e91e63', 
  *   Puedes agregar o quitar emojis a tu gusto.
  */
 const ESPECIALES = ['🌟', '💥', '⚡', '🔥', '🚀', '💫', '🎆', '🎇', '🏹', '⭐'];
-const OBJETOS    = ['🗡️', '🔱', '🔮', '🪄', '💎', '🍄', '🌀', '🌊', '☄️', '🎮'];
+const OBJETOS = ['🗡️', '🔱', '🔮', '🪄', '💎', '🍄', '🌀', '🌊', '☄️', '🎮'];
 
 
 /* ╔═══════════════════════════════════════════════════════════════╗
@@ -113,8 +113,8 @@ const NIVELES = [
     nombreJefe: 'Monstruo Rojo', emojiJefe: '👹',
     color: '#ff6d00',
     subniveles: [
-      { id: '1-1', nombre: 'Fácil',   tipo: 'suma', max: 10, imgJefe: 'assets/nivel1/boss_1_1.png' },
-      { id: '1-2', nombre: 'Medio',   tipo: 'suma', max: 20, imgJefe: 'assets/nivel1/boss_1_2.png' },
+      { id: '1-1', nombre: 'Fácil', tipo: 'suma', max: 10, imgJefe: 'assets/nivel1/boss_1_1.png' },
+      { id: '1-2', nombre: 'Medio', tipo: 'suma', max: 20, imgJefe: 'assets/nivel1/boss_1_2.png' },
       { id: '1-3', nombre: 'Difícil', tipo: 'suma', max: 50, imgJefe: 'assets/nivel1/boss_1_3.png' }
     ]
   },
@@ -123,8 +123,8 @@ const NIVELES = [
     nombreJefe: 'Dragón', emojiJefe: '🐉',
     color: '#2196f3',
     subniveles: [
-      { id: '2-1', nombre: 'Fácil',   tipo: 'resta', max: 10, imgJefe: 'assets/nivel2/boss_2_1.png' },
-      { id: '2-2', nombre: 'Medio',   tipo: 'resta', max: 20, imgJefe: 'assets/nivel2/boss_2_2.png' },
+      { id: '2-1', nombre: 'Fácil', tipo: 'resta', max: 10, imgJefe: 'assets/nivel2/boss_2_1.png' },
+      { id: '2-2', nombre: 'Medio', tipo: 'resta', max: 20, imgJefe: 'assets/nivel2/boss_2_2.png' },
       { id: '2-3', nombre: 'Difícil', tipo: 'resta', max: 50, imgJefe: 'assets/nivel2/boss_2_3.png' }
     ]
   },
@@ -133,8 +133,8 @@ const NIVELES = [
     nombreJefe: 'Alien', emojiJefe: '👾',
     color: '#4caf50',
     subniveles: [
-      { id: '3-1', nombre: 'Fácil',   tipo: 'multi', max: 3, imgJefe: 'assets/nivel3/boss_3_1.png' },
-      { id: '3-2', nombre: 'Medio',   tipo: 'multi', max: 5, imgJefe: 'assets/nivel3/boss_3_2.png' },
+      { id: '3-1', nombre: 'Fácil', tipo: 'multi', max: 3, imgJefe: 'assets/nivel3/boss_3_1.png' },
+      { id: '3-2', nombre: 'Medio', tipo: 'multi', max: 5, imgJefe: 'assets/nivel3/boss_3_2.png' },
       { id: '3-3', nombre: 'Difícil', tipo: 'multi', max: 9, imgJefe: 'assets/nivel3/boss_3_3.png' }
     ]
   },
@@ -143,8 +143,8 @@ const NIVELES = [
     nombreJefe: 'Esqueleto', emojiJefe: '💀',
     color: '#9c27b0',
     subniveles: [
-      { id: '4-1', nombre: 'Fácil',   tipo: 'divi', max: 3, imgJefe: 'assets/nivel4/boss_4_1.png' },
-      { id: '4-2', nombre: 'Medio',   tipo: 'divi', max: 5, imgJefe: 'assets/nivel4/boss_4_2.png' },
+      { id: '4-1', nombre: 'Fácil', tipo: 'divi', max: 3, imgJefe: 'assets/nivel4/boss_4_1.png' },
+      { id: '4-2', nombre: 'Medio', tipo: 'divi', max: 5, imgJefe: 'assets/nivel4/boss_4_2.png' },
       { id: '4-3', nombre: 'Difícil', tipo: 'divi', max: 9, imgJefe: 'assets/nivel4/boss_4_3.png' }
     ]
   },
@@ -193,26 +193,26 @@ const ALIADOS = [
    ║  actual. Se resetea al iniciar cada subnivel.                 ║
    ╚═══════════════════════════════════════════════════════════════╝ */
 let estado = {
-  indiceNivelActual:      0,     // Índice en el array NIVELES (0-5)
-  indiceSubnivelActual:   0,     // Índice del subnivel dentro del nivel (0-2)
-  vidaJugador:            100,   // Puntos de vida del héroe (0 = derrota)
-  vidaEnemigo:            100,   // Puntos de vida del jefe (0 = victoria)
-  puntuacion:             0,     // Puntos acumulados en el subnivel
-  racha:                  0,     // Aciertos consecutivos actuales
-  mejorRacha:             0,     // Mayor racha alcanzada en el subnivel
-  contadorAciertos:       0,     // Total de respuestas correctas
-  indicePregunta:         0,     // Pregunta actual (0-indexed)
-  preguntas:              [],    // Array de preguntas generadas para el subnivel
-  respondiendo:           false, // true mientras se procesa una respuesta (evita doble clic)
-  pausado:                false, // true cuando el juego está en pausa
-  sonidoActivo:           true,  // true = sonido habilitado, false = mudo
-  progreso:               {},    // Registro de subniveles completados { "1-1": { completado: true } }
-  nivelDesbloqueado:      1,     // Mayor nivel desbloqueado (1-6)
-  subnivelDesbloqueado:   { 1:1, 2:1, 3:1, 4:1, 5:1 },  // Subnivel desbloqueado por nivel
-  juegoActivo:            false, // BUGFIX: indica si hay una partida en curso
-  intervaloTemporizador:  null,  // Referencia al setInterval del timer
-  segundosTemporizador:   15,    // Segundos restantes del timer actual
-  maxTemporizador:        15     // Máximo de segundos (para calcular el % de la barra)
+  indiceNivelActual: 0,     // Índice en el array NIVELES (0-5)
+  indiceSubnivelActual: 0,     // Índice del subnivel dentro del nivel (0-2)
+  vidaJugador: 100,   // Puntos de vida del héroe (0 = derrota)
+  vidaEnemigo: 100,   // Puntos de vida del jefe (0 = victoria)
+  puntuacion: 0,     // Puntos acumulados en el subnivel
+  racha: 0,     // Aciertos consecutivos actuales
+  mejorRacha: 0,     // Mayor racha alcanzada en el subnivel
+  contadorAciertos: 0,     // Total de respuestas correctas
+  indicePregunta: 0,     // Pregunta actual (0-indexed)
+  preguntas: [],    // Array de preguntas generadas para el subnivel
+  respondiendo: false, // true mientras se procesa una respuesta (evita doble clic)
+  pausado: false, // true cuando el juego está en pausa
+  sonidoActivo: true,  // true = sonido habilitado, false = mudo
+  progreso: {},    // Registro de subniveles completados { "1-1": { completado: true } }
+  nivelDesbloqueado: 1,     // Mayor nivel desbloqueado (1-6)
+  subnivelDesbloqueado: { 1: 1, 2: 1, 3: 1, 4: 1, 5: 1 },  // Subnivel desbloqueado por nivel
+  juegoActivo: false, // BUGFIX: indica si hay una partida en curso
+  intervaloTemporizador: null,  // Referencia al setInterval del timer
+  segundosTemporizador: 15,    // Segundos restantes del timer actual
+  maxTemporizador: 15     // Máximo de segundos (para calcular el % de la barra)
 };
 
 
@@ -232,7 +232,7 @@ let estado = {
 function iniciarTemporizador() {
   detenerTemporizador();  // Limpiar cualquier timer anterior
   const nvl = NIVELES[estado.indiceNivelActual];
-  const sn  = nvl.subniveles[estado.indiceSubnivelActual];
+  const sn = nvl.subniveles[estado.indiceSubnivelActual];
   const segundos = sn.temporizadorEspecial || SEGUNDOS_TEMPORIZADOR;
   estado.segundosTemporizador = segundos;
   estado.maxTemporizador = segundos;
@@ -392,7 +392,7 @@ function reproducirTono(freq, type = 'sine', dur = 0.15, vol = 0.3) {
     gain.gain.setValueAtTime(vol, ctx.currentTime);
     gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + dur);  // Fade out
     osc.start(); osc.stop(ctx.currentTime + dur);
-  } catch(e) {}
+  } catch (e) { }
 }
 
 /** Secuencia de 3 notas ascendentes (Do-Mi-Sol) para respuesta correcta */
@@ -410,12 +410,12 @@ function sonidoIncorrecto() {
 
 /** 4 notas ascendentes triunfales para victoria */
 function sonidoVictoria() {
-  [523,659,784,1047].forEach((f,i) => setTimeout(() => reproducirTono(f,'triangle',0.2), i*120));
+  [523, 659, 784, 1047].forEach((f, i) => setTimeout(() => reproducirTono(f, 'triangle', 0.2), i * 120));
 }
 
 /** 3 notas descendentes graves para derrota */
 function sonidoDerrota() {
-  [400,300,200].forEach((f,i) => setTimeout(() => reproducirTono(f,'sawtooth',0.25,0.2), i*150));
+  [400, 300, 200].forEach((f, i) => setTimeout(() => reproducirTono(f, 'sawtooth', 0.25, 0.2), i * 150));
 }
 
 /** Alterna sonido ON/OFF y actualiza el ícono del botón */
@@ -473,7 +473,7 @@ function reproducirMusica(clave) {
   pistaActual = clave;
   elementoMusica.play().catch(() => {
     // El navegador bloquea autoplay; reintenta al primer clic del usuario
-    document.addEventListener('click', () => elementoMusica.play().catch(()=>{}), { once: true });
+    document.addEventListener('click', () => elementoMusica.play().catch(() => { }), { once: true });
   });
 }
 
@@ -526,7 +526,7 @@ function pausarMusica() {
 
 /** Reanuda la música de fondo */
 function reanudarMusica() {
-  if (elementoMusica && pistaActual) elementoMusica.play().catch(() => {});
+  if (elementoMusica && pistaActual) elementoMusica.play().catch(() => { });
 }
 
 /**
@@ -578,7 +578,7 @@ function generarPregunta(tipo, max) {
 
   // Si es mixto, elige un tipo aleatorio entre los 4 básicos
   const ops = tipo === 'mixto' ? ['suma', 'resta', 'multi', 'divi'] : [tipo];
-  const op  = ops[Math.floor(Math.random() * ops.length)];
+  const op = ops[Math.floor(Math.random() * ops.length)];
 
   // El tipo 'parentesis' tiene su propio generador especial
   if (tipo === 'parentesis') {
@@ -641,21 +641,21 @@ function numDosDigitos() {
 function generarPreguntaParentesis() {
   const patrones = [
     // Patrón 1: (a + b) × c
-    () => { const a=numDosDigitos(),b=numDosDigitos(),c=Math.floor(Math.random()*9)+2; const ans=(a+b)*c; return { texto:`(${a} + ${b}) × ${c} = ?`, respuesta: ans }; },
+    () => { const a = numDosDigitos(), b = numDosDigitos(), c = Math.floor(Math.random() * 9) + 2; const ans = (a + b) * c; return { texto: `(${a} + ${b}) × ${c} = ?`, respuesta: ans }; },
     // Patrón 2: (a - b) × c  (a > b garantizado)
-    () => { const b=numDosDigitos(); const a=b+Math.floor(Math.random()*20)+1; const c=Math.floor(Math.random()*9)+2; const ans=(a-b)*c; return { texto:`(${a} − ${b}) × ${c} = ?`, respuesta: ans }; },
+    () => { const b = numDosDigitos(); const a = b + Math.floor(Math.random() * 20) + 1; const c = Math.floor(Math.random() * 9) + 2; const ans = (a - b) * c; return { texto: `(${a} − ${b}) × ${c} = ?`, respuesta: ans }; },
     // Patrón 3: a × (b + c)
-    () => { const a=Math.floor(Math.random()*9)+2,b=numDosDigitos(),c=numDosDigitos(); const ans=a*(b+c); return { texto:`${a} × (${b} + ${c}) = ?`, respuesta: ans }; },
+    () => { const a = Math.floor(Math.random() * 9) + 2, b = numDosDigitos(), c = numDosDigitos(); const ans = a * (b + c); return { texto: `${a} × (${b} + ${c}) = ?`, respuesta: ans }; },
     // Patrón 4: (a + b) + (c - d)
-    () => { const a=numDosDigitos(),b=numDosDigitos(),d=numDosDigitos(); const c=d+Math.floor(Math.random()*30)+1; const ans=(a+b)+(c-d); return { texto:`(${a} + ${b}) + (${c} − ${d}) = ?`, respuesta: ans }; },
+    () => { const a = numDosDigitos(), b = numDosDigitos(), d = numDosDigitos(); const c = d + Math.floor(Math.random() * 30) + 1; const ans = (a + b) + (c - d); return { texto: `(${a} + ${b}) + (${c} − ${d}) = ?`, respuesta: ans }; },
     // Patrón 5: (a × b) + c
-    () => { const a=Math.floor(Math.random()*9)+2,b=Math.floor(Math.random()*9)+2,c=numDosDigitos(); const ans=(a*b)+c; return { texto:`(${a} × ${b}) + ${c} = ?`, respuesta: ans }; },
+    () => { const a = Math.floor(Math.random() * 9) + 2, b = Math.floor(Math.random() * 9) + 2, c = numDosDigitos(); const ans = (a * b) + c; return { texto: `(${a} × ${b}) + ${c} = ?`, respuesta: ans }; },
     // Patrón 6: (a + b) - c  (resultado positivo)
-    () => { const a=numDosDigitos(),b=numDosDigitos(); const c=Math.floor(Math.random()*(a+b-10))+1; const ans=(a+b)-c; return { texto:`(${a} + ${b}) − ${c} = ?`, respuesta: ans }; },
+    () => { const a = numDosDigitos(), b = numDosDigitos(); const c = Math.floor(Math.random() * (a + b - 10)) + 1; const ans = (a + b) - c; return { texto: `(${a} + ${b}) − ${c} = ?`, respuesta: ans }; },
     // Patrón 7: a + (b × c)
-    () => { const a=numDosDigitos(),b=Math.floor(Math.random()*9)+2,c=Math.floor(Math.random()*9)+2; const ans=a+(b*c); return { texto:`${a} + (${b} × ${c}) = ?`, respuesta: ans }; },
+    () => { const a = numDosDigitos(), b = Math.floor(Math.random() * 9) + 2, c = Math.floor(Math.random() * 9) + 2; const ans = a + (b * c); return { texto: `${a} + (${b} × ${c}) = ?`, respuesta: ans }; },
     // Patrón 8: (a - b) + (c + d)
-    () => { const b=numDosDigitos(); const a=b+Math.floor(Math.random()*20)+1; const c=numDosDigitos(),d=numDosDigitos(); const ans=(a-b)+(c+d); return { texto:`(${a} − ${b}) + (${c} + ${d}) = ?`, respuesta: ans }; },
+    () => { const b = numDosDigitos(); const a = b + Math.floor(Math.random() * 20) + 1; const c = numDosDigitos(), d = numDosDigitos(); const ans = (a - b) + (c + d); return { texto: `(${a} − ${b}) + (${c} + ${d}) = ?`, respuesta: ans }; },
   ];
 
   const gen = patrones[Math.floor(Math.random() * patrones.length)];
@@ -711,8 +711,8 @@ function construirPantallaNiveles() {
 
     // Calcular estrellas ganadas (1 por subnivel completado)
     const maxEstrellas = nvl.esJefeFinal ? 1 : 3;
-    const estrellas    = Math.min(obtenerEstrellasNivel(nvl.id), maxEstrellas);
-    const etiquetaSub  = nvl.esJefeFinal ? '1 desafío final' : '3 subniveles';
+    const estrellas = Math.min(obtenerEstrellasNivel(nvl.id), maxEstrellas);
+    const etiquetaSub = nvl.esJefeFinal ? '1 desafío final' : '3 subniveles';
 
     tarjeta.innerHTML = `
       <span class="tn-emoji">${nvl.emojiJefe}</span>
@@ -745,10 +745,10 @@ function mostrarSubniveles(nvl, tarjeta) {
   panel.className = 'panel-subnivel';
   const botones = nvl.subniveles.map((sn, idx) => {
     // Un subnivel está desbloqueado si es el primero o el anterior está completado
-    const desbloqueado = idx === 0 || (estado.progreso[nvl.subniveles[idx-1].id]?.completado);
+    const desbloqueado = idx === 0 || (estado.progreso[nvl.subniveles[idx - 1].id]?.completado);
     const completado = estado.progreso[sn.id]?.completado;
     return `<button class="btn-subnivel ${completado ? 'completado' : ''} ${desbloqueado ? '' : 'bloqueado'}"
-      ${desbloqueado ? `onclick="iniciarSubnivel(${nvl.id-1},${idx})"` : 'disabled'}>
+      ${desbloqueado ? `onclick="iniciarSubnivel(${nvl.id - 1},${idx})"` : 'disabled'}>
       ${sn.nombre}${completado ? ' ✓' : ''}
     </button>`;
   }).join('');
@@ -778,21 +778,21 @@ function iniciarJuego() {
  */
 function iniciarSubnivel(indiceNivel, indiceSubnivel) {
   // Resetear todo el estado de la partida
-  estado.indiceNivelActual    = indiceNivel;
+  estado.indiceNivelActual = indiceNivel;
   estado.indiceSubnivelActual = indiceSubnivel;
-  estado.vidaJugador   = 100;
-  estado.vidaEnemigo   = 100;
-  estado.puntuacion    = 0;
-  estado.racha         = 0;
-  estado.mejorRacha    = 0;
+  estado.vidaJugador = 100;
+  estado.vidaEnemigo = 100;
+  estado.puntuacion = 0;
+  estado.racha = 0;
+  estado.mejorRacha = 0;
   estado.contadorAciertos = 0;
   estado.indicePregunta = 0;
-  estado.respondiendo  = false;
-  estado.pausado       = false;
-  estado.juegoActivo   = true;   // BUGFIX: marcar que hay partida en curso
+  estado.respondiendo = false;
+  estado.pausado = false;
+  estado.juegoActivo = true;   // BUGFIX: marcar que hay partida en curso
 
   const nvl = NIVELES[indiceNivel];
-  const sn  = nvl.subniveles[indiceSubnivel];
+  const sn = nvl.subniveles[indiceSubnivel];
   estado.preguntas = generarPreguntas(sn);  // Generar preguntas aleatorias
 
   // Si hay cómic introductorio, mostrarlo antes de jugar
@@ -837,15 +837,15 @@ const COMIC_DESPUES = {
   '6-1': ['assets/comics/comic_9.png'],
 };
 
-let _colaComic     = [];    // Imágenes pendientes de mostrar
-let _paginaComic   = 0;     // Índice de la página actual
+let _colaComic = [];    // Imágenes pendientes de mostrar
+let _paginaComic = 0;     // Índice de la página actual
 let _callbackComic = null;  // Función a ejecutar al terminar la secuencia
 
 /** Inicia una secuencia de cómic con las imágenes dadas */
 function mostrarSecuenciaComic(imagenes, claveMusica, alTerminar) {
   if (!imagenes || imagenes.length === 0) { alTerminar(); return; }
-  _colaComic     = imagenes;
-  _paginaComic   = 0;
+  _colaComic = imagenes;
+  _paginaComic = 0;
   _callbackComic = alTerminar;
 
   // Crear el overlay fullscreen si no existe
@@ -886,7 +886,7 @@ function mostrarSecuenciaComic(imagenes, claveMusica, alTerminar) {
 
 /** Muestra la página actual del cómic */
 function _mostrarPaginaComic() {
-  const img   = document.getElementById('img-comic');
+  const img = document.getElementById('img-comic');
   const pista = document.getElementById('pista-comic');
   if (!img) return;
   img.src = _colaComic[_paginaComic];
@@ -938,26 +938,26 @@ function configurarArena(nvl, sn) {
   actualizarBarraVida('barraVidaEnemigo', 'textoVidaEnemigo', 100, 100, '💀');
 
   // Limpiar aliados y efectos del subnivel anterior
-  $('filaAliados').innerHTML    = '';
-  $('capaEfectos').innerHTML    = '';
+  $('filaAliados').innerHTML = '';
+  $('capaEfectos').innerHTML = '';
 
   // Resetear completamente el enemigo (posición, animación, filtros)
   const contEnemigo = $('contenedorEnemigo');
-  contEnemigo.style.animation  = 'none';
-  contEnemigo.style.opacity    = '1';
-  contEnemigo.style.transform  = '';
+  contEnemigo.style.animation = 'none';
+  contEnemigo.style.opacity = '1';
+  contEnemigo.style.transform = '';
   contEnemigo.style.transition = 'none';
-  contEnemigo.style.left       = '62%';
+  contEnemigo.style.left = '62%';
 
-  interiorEl.style.filter    = '';
+  interiorEl.style.filter = '';
   interiorEl.style.animation = 'none';
   interiorEl.style.transform = '';
 
   // Forzar reflow para aplicar el reset de animación
   void contEnemigo.offsetWidth;
   void interiorEl.offsetWidth;
-  contEnemigo.style.animation  = '';
-  interiorEl.style.animation   = '';
+  contEnemigo.style.animation = '';
+  interiorEl.style.animation = '';
 
   // Mostrar indicador de nivel actual
   $('infoNivel').textContent = `Nivel ${nvl.id}-${sn.id.split('-')[1]}`;
@@ -1001,7 +1001,7 @@ function cargarPregunta() {
   if (!estado.juegoActivo) return;
 
   const nvl = NIVELES[estado.indiceNivelActual];
-  const sn  = nvl.subniveles[estado.indiceSubnivelActual];
+  const sn = nvl.subniveles[estado.indiceSubnivelActual];
   const totalP = sn.maxPreguntas || PREGUNTAS_POR_SUBNIVEL;
 
   // === Verificar condiciones de fin ===
@@ -1159,7 +1159,7 @@ function alFallar() {
 
   // Nivel 6: verificar derrota por máximo de errores
   const nvl = NIVELES[estado.indiceNivelActual];
-  const sn  = nvl.subniveles[estado.indiceSubnivelActual];
+  const sn = nvl.subniveles[estado.indiceSubnivelActual];
   if (sn.preguntasParaGanar) {
     const errores = estado.indicePregunta + 1 - estado.contadorAciertos;
     const maxErrores = sn.maxPreguntas - sn.preguntasParaGanar;
@@ -1203,7 +1203,7 @@ function lanzarRayo() {
   el.className = 'rayo';
   el.textContent = '⚡';
   el.style.left = '18%';
-  el.style.top  = (30 + Math.random() * 20) + '%';
+  el.style.top = (30 + Math.random() * 20) + '%';
   capa.appendChild(el);
   setTimeout(() => el.remove(), 900);
 }
@@ -1213,7 +1213,7 @@ function lanzarRayo() {
  * Cada aliado (gato, mago, tech) tiene su propio estilo de frase.
  */
 const FRASES_ALIADOS = {
-  'assets/aliados/aliado1_gato.png':  ['¡Eres un guerrero! ⚔️', '¡Sin miedo al combate! 🛡️', '¡Atacad con fuerza! 🐾', '¡La victoria es tuya! 🏆'],
+  'assets/aliados/aliado1_gato.png': ['¡Eres un guerrero! ⚔️', '¡Sin miedo al combate! 🛡️', '¡Atacad con fuerza! 🐾', '¡La victoria es tuya! 🏆'],
   'assets/aliados/aliado2_mago.png': ['¡El saber es poder! 🔮', '¡Magia matemática! ✨', '¡Tu mente es tu arma! 💎', '¡Conjuro certero! 🌟'],
   'assets/aliados/aliado3_tech.png': ['¡Calculando… correcto! ⚙️', '¡Sistema al 100%! 🟢', '¡Genio en acción! 🔧', '¡Error no detectado! 💡']
 };
@@ -1275,10 +1275,10 @@ function lanzarAtaqueEspecial() {
     const el = document.createElement('div');
     el.className = 'ataque-especial';
     el.textContent = seleccion[Math.floor(Math.random() * seleccion.length)];
-    el.style.top  = (10 + Math.random() * 40) + '%';
+    el.style.top = (10 + Math.random() * 40) + '%';
     el.style.left = (5 + Math.random() * 10) + '%';
     el.style.animationDuration = (.8 + Math.random() * .4) + 's';
-    el.style.animationDelay   = (i * 0.15) + 's';
+    el.style.animationDelay = (i * 0.15) + 's';
     capa.appendChild(el);
     setTimeout(() => el.remove(), 1500);
   }
@@ -1291,7 +1291,7 @@ function mostrarEfectoFallo() {
   const el = document.createElement('div');
   el.className = 'efecto-fallo';
   el.textContent = '✗ ¡INCORRECTO!';
-  el.style.top  = '30%';
+  el.style.top = '30%';
   el.style.left = '30%';
   capa.appendChild(el);
   setTimeout(() => el.remove(), 700);
@@ -1361,7 +1361,7 @@ function finalizarSubnivel(gano) {
   desvanecerMusica(700);
 
   const nvl = NIVELES[estado.indiceNivelActual];
-  const sn  = nvl.subniveles[estado.indiceSubnivelActual];
+  const sn = nvl.subniveles[estado.indiceSubnivelActual];
 
   if (gano) {
     sonidoVictoria();
@@ -1498,7 +1498,7 @@ function reanudarJuego() {
 function salirDelJuego() {
   // 1. Marcar el juego como inactivo (evita que callbacks pendientes se ejecuten)
   estado.juegoActivo = false;
-  estado.pausado     = false;
+  estado.pausado = false;
   estado.respondiendo = true;  // Bloquear cualquier interacción residual
 
   // 2. Detener el temporizador de preguntas
@@ -1536,11 +1536,11 @@ function generarConfeti() {
     el.className = 'pieza-confeti';
     el.style.left = Math.random() * 100 + '%';
     el.style.backgroundColor = COLORES_CONFETI[Math.floor(Math.random() * COLORES_CONFETI.length)];
-    el.style.width  = (8 + Math.random() * 10) + 'px';
+    el.style.width = (8 + Math.random() * 10) + 'px';
     el.style.height = (8 + Math.random() * 10) + 'px';
     el.style.borderRadius = Math.random() > .5 ? '50%' : '2px';  // Círculos o cuadrados
-    el.style.animationDuration  = (1.5 + Math.random() * 2) + 's';
-    el.style.animationDelay     = (Math.random() * 1.5) + 's';
+    el.style.animationDuration = (1.5 + Math.random() * 2) + 's';
+    el.style.animationDelay = (Math.random() * 1.5) + 's';
     contenedor.appendChild(el);
   }
 }
@@ -1571,7 +1571,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
   // Desbloquear el AudioContext al primer clic (requerido por navegadores)
   document.addEventListener('click', () => {
-    try { obtenerContextoAudio().resume(); } catch(e) {}
+    try { obtenerContextoAudio().resume(); } catch (e) { }
   }, { once: true });
 });
 

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Créditos del Juego</title>
+    <style>
+        /* Estilos generales para la pantalla de créditos */
+        body {
+            background-color: #000000; /* Fondo negro */
+            color: #ffffff; /* Texto blanco */
+            font-family: 'Courier New', Courier, monospace; /* Fuente estilo código/retro */
+            text-align: center;
+            overflow: hidden; /* Oculta las barras de desplazamiento */
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+        }
+
+        /* Contenedor que tendrá la animación de subir */
+        .contenedor-creditos {
+            position: absolute;
+            width: 100%;
+            bottom: -100%; /* Empieza fuera de la pantalla por abajo */
+            /* La animación dura 25 segundos, es lineal y se repite infinitamente */
+            animation: subirCreditos 25s linear infinite; 
+        }
+
+        /* Pausa la animación si el jugador pone el ratón encima */
+        
+
+        h1 { font-size: 3em; margin-bottom: 20px; color: #f1c40f; /* Color amarillo para el título */ }
+        h2 { font-size: 1.5em; margin-top: 50px; margin-bottom: 10px; color: #3498db; /* Color azul para las categorías */ }
+        p { font-size: 1.2em; margin: 5px 0; color: #ecf0f1; }
+
+        /* Animación clave para el desplazamiento */
+        @keyframes subirCreditos {
+            0% { bottom: -100%; }
+            100% { bottom: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    colaboradores e integrantes
+    <!--
+    Kevin D. Torrez Q.
+    Issac W. Condori A.
+    Darwin J. Coaquira Q.
+    Javier M. Prado C.
+    Omar N. Huanca H.
+
+    
+    
+    
+    -->
+
+    <div class="contenedor-creditos">
+        <h1>Maht-Hero]</h1>
+
+        <h2>Dirección y Desarrollo Principal</h2>
+        <p> Daniel Ali T.</p>
+
+        <h2>Diseño de Juego y Niveles</h2>
+        <p>Issac W. Condori A.</p>
+        <p>Kevin D. Torrez Q./p>
+
+        <h2>Programación</h2>
+        <p>[Tu Nombre]</p>
+        <p>[Nombre de otro Programador si lo hay]</p>
+
+        <h2>Arte y Gráficos</h2>
+        <p>[Nombre del Artista de Personajes]</p>
+        <p>[Nombre del Artista de Entornos]</p>
+        <p>[Nombre del Animador]</p>
+
+        <h2>Música y Efectos de Sonido</h2>
+        <p>[Nombre del Compositor]</p>
+        <p>[Diseñador de Sonido]</p>
+
+        <h2>Pruebas de Calidad (QA / Beta Testers)</h2>
+        <p>[Nombre del Tester 1]</p>
+        <p>[Nombre del Tester 2]</p>
+        <p>[Nombre del Tester 3]</p>
+
+        <h2>Herramientas y Recursos de Terceros</h2>
+        <p>Motor Web: [Ej. HTML5 Canvas, Phaser, etc.]</p>
+        <p>Efectos de Sonido de: [Ej. Freesound.org]</p>
+        <p>Fuentes tipográficas de: [Ej. Google Fonts]</p>
+
+        <h2>Agradecimientos Especiales</h2>
+        <p>[Familia, amigos, profesores o la comunidad]</p>
+
+        <h2 style="margin-top: 80px; color: #2ecc71;">¡GRACIAS POR JUGAR!</h2>
+    </div>
+
+</body>
+</html>

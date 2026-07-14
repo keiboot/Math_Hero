@@ -1,0 +1,58 @@
+/* --- style.css --- */
+
+/* Estilos generales para la pantalla de créditos */
+body {
+    background-color: #000000;
+    color: #ffffff;
+    font-family: 'Courier New', Courier, monospace;
+    text-align: center;
+    overflow: hidden; /* Oculta las barras de desplazamiento */
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+}
+
+/* Contenedor que tendrá la animación de subir */
+.contenedor-creditos {
+    position: absolute;
+    width: 100%;
+    bottom: -100%;
+    /* La animación dura 25 segundos, es lineal y se repite infinitamente */
+    animation: subirCreditos 25s linear infinite; 
+}
+
+/* Pausa la animación si el jugador pone el ratón encima */
+.contenedor-creditos:hover {
+    animation-play-state: paused;
+}
+
+h1 { 
+    font-size: 3em; 
+    margin-bottom: 20px; 
+    color: #f1c40f; 
+}
+
+h2 { 
+    font-size: 1.5em; 
+    margin-top: 50px; 
+    margin-bottom: 10px; 
+    color: #3498db; 
+}
+
+p { 
+    font-size: 1.2em; 
+    margin: 5px 0; 
+    color: #ecf0f1; 
+}
+
+/* Clase específica para el mensaje final */
+.mensaje-final {
+    margin-top: 80px;
+    color: #2ecc71;
+}
+
+/* Animación clave para el desplazamiento */
+@keyframes subirCreditos {
+    0% { bottom: -100%; }
+    100% { bottom: 100%; }
+}
