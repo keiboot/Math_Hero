@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <!-- ===== META: Codificación y configuración del viewport para dispositivos móviles ===== -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- ===== TÍTULO: Aparece en la pestaña del navegador ===== -->
+  <title>MathHero – ¡Salva el Reino!</title>
+
+  <!-- ===== ESTILOS: Hoja de estilos principal del juego ===== -->
+  <link rel="stylesheet" href="css/estilos.css" />
+
+  <!-- ===== FUENTES: Google Fonts – Fredoka One (títulos) y Nunito (texto general) ===== -->
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- ╔═══════════════════════════════════════════════════════════╗
+       ║  PANTALLA DE BIENVENIDA                                  ║
+       ║  Primera pantalla visible al abrir el juego.             ║
+       ║  Contiene: logo, título, botón JUGAR y botón de sonido. ║
+       ╚═══════════════════════════════════════════════════════════╝ -->
+  <div id="pantalla-bienvenida" class="pantalla activa">
+
+    <!-- Fondo animado con estrellas, nubes y números flotantes -->
+    <div class="fondo-bienvenida">
+      <!-- Estrellas decorativas: --x/--y = posición, --s = escala, --d = delay animación -->
+      <div class="estrella" style="--x:10%;--y:15%;--s:1.2;--d:2.1s"></div>
+      <div class="estrella" style="--x:80%;--y:10%;--s:0.8;--d:1.7s"></div>
+      <div class="estrella" style="--x:50%;--y:5%;--s:1.5;--d:2.5s"></div>
+      <div class="estrella" style="--x:20%;--y:80%;--s:1;--d:1.9s"></div>
+      <div class="estrella" style="--x:70%;--y:75%;--s:0.9;--d:2.3s"></div>
+      <div class="estrella" style="--x:35%;--y:50%;--s:0.6;--d:1.5s"></div>
+      <div class="estrella" style="--x:90%;--y:45%;--s:1.1;--d:2s"></div>
+
+      <!-- Nubes que se mueven horizontalmente: --spd = velocidad, --top = altura -->
+      <div class="nube" style="--spd:18s;--top:12%"></div>
+      <div class="nube" style="--spd:25s;--top:30%"></div>
+      <div class="nube" style="--spd:20s;--top:60%"></div>
+
+      <!-- Símbolos matemáticos flotantes decorativos -->
+      <div class="numero-flotante" style="--x:5%;--y:20%;--d:0s">+</div>
+      <div class="numero-flotante" style="--x:88%;--y:25%;--d:.5s">−</div>
+      <div class="numero-flotante" style="--x:15%;--y:65%;--d:1s">×</div>
+      <div class="numero-flotante" style="--x:82%;--y:70%;--d:1.5s">÷</div>
+      <div class="numero-flotante" style="--x:50%;--y:85%;--d:2s">🌟</div>
+    </div>
+
+    <!-- Contenido principal de bienvenida (centrado sobre el fondo) -->
+    <div class="contenido-bienvenida">
+
+      <!-- Título y subtítulo del juego -->
+      <div class="area-titulo">
+        <h1 class="titulo-juego">⚡ MathHero ⚡</h1>
+        <p class="subtitulo-juego">¡Salva el Reino con tus Matemáticas!</p>
+      </div>
+
+      <!-- Imagen del héroe/logo con efecto de brillo e insignia -->
+      <div class="contenedor-heroe">
+        <div class="brillo-heroe"></div>  <!-- Resplandor circular detrás del logo -->
+        <img
+          src="assets/general/logo_transparente.png"
+          alt="MathHero"
+          class="img-heroe"
+          id="imgHeroe"
+        />
+        <div class="insignia-heroe">🏆 HÉROE MATEMÁTICO</div>  <!-- Badge dorado inferior -->
+      </div>
+
+      <!-- Botones: JUGAR y control de sonido -->
+      <div class="botones-bienvenida">
+        <button class="btn-jugar" id="btnJugar" onclick="iniciarJuego()">
+          <span class="btn-icono">▶</span> ¡JUGAR!
+        </button>
+        <button class="btn-sonido" id="btnSonido" onclick="alternarSonido()" title="Sonido">🔊</button>
+      </div>
+
+      <!-- Información general del juego -->
+      <div class="info-bienvenida">
+        <span>5 Niveles</span><span>•</span>
+        <span>15 Subniveles</span><span>•</span>
+        <span>¡150 Preguntas!</span>
+      </div>
+
+      <!-- Créditos del autor -->
+      <div class="info-bienvenida">
+        <span>Creado por ISAAC WILFREDO CONDORI ARTEAGA</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ╔═══════════════════════════════════════════════════════════╗
+       ║  PANTALLA DE SELECCIÓN DE NIVEL                          ║
+       ║  Muestra las tarjetas de nivel (6 niveles).              ║
+       ║  Al hacer clic en un nivel desbloqueado, muestra los     ║
+       ║  subniveles (fácil, medio, difícil).                     ║
+       ╚═══════════════════════════════════════════════════════════╝ -->
+  <div id="pantalla-niveles" class="pantalla">
+    <div class="fondo-niveles"></div>  <!-- Fondo degradado -->
+    <div class="contenido-niveles">
+      <h2 class="titulo-niveles">🗺️ Elige tu Misión</h2>
+      <!-- cuadriculaNiveles: se llena dinámicamente con JS (tarjetas de nivel) -->
+      <div class="cuadricula-niveles" id="cuadriculaNiveles"></div>
+      <button class="btn-volver" onclick="mostrarPantalla('bienvenida')">⬅ Inicio</button>
+    </div>
+  </div>
+
+  <!-- ╔═══════════════════════════════════════════════════════════╗
+       ║  PANTALLA DE JUEGO (BATALLA)                              ║
+       ║  Pantalla principal donde se juega. Contiene:             ║
+       ║  - Interfaz superior (HUD): vida jugador/enemigo, puntos ║
+       ║  - Arena de batalla: héroe, enemigo, aliados, efectos     ║
+       ║  - Panel de pregunta: pregunta + 4 opciones de respuesta  ║
+       ╚═══════════════════════════════════════════════════════════╝ -->
+  <div id="pantalla-juego" class="pantalla">
+
+    <!-- ── INTERFAZ SUPERIOR (HUD) ── -->
+    <!-- Barra fija en la parte superior con la información de la partida -->
+    <div class="interfaz-superior">
+
+      <!-- Lado izquierdo: vida del héroe -->
+      <div class="interfaz-izq">
+        <div class="etiqueta-interfaz">HÉROE</div>
+        <div class="envoltorio-barra-vida">
+          <div class="barra-vida" id="barraVidaJugador"></div>  <!-- Barra verde que se reduce -->
+        </div>
+        <div class="texto-vida" id="textoVidaJugador">❤️ 100</div>  <!-- Texto numérico de vida -->
+      </div>
+
+      <!-- Centro: información del nivel, preguntas, puntos y temporizador -->
+      <div class="interfaz-centro">
+        <div class="info-nivel" id="infoNivel">Nivel 1-1</div>           <!-- Nivel actual -->
+        <div class="contador-preguntas" id="contadorPreguntas">Pregunta 1/10</div>  <!-- Progreso -->
+        <div class="marcador-puntos" id="marcadorPuntos">⭐ 0</div>      <!-- Puntuación -->
+
+        <!-- Temporizador visual: barra + texto con segundos restantes -->
+        <div class="envoltorio-reloj">
+          <div class="fondo-barra-reloj">
+            <div class="barra-reloj" id="barraReloj"></div>  <!-- Barra que se reduce con el tiempo -->
+          </div>
+          <div class="texto-reloj" id="textoReloj">⏱ 50</div>  <!-- Segundos restantes -->
+        </div>
+      </div>
+
+      <!-- Lado derecho: vida del jefe enemigo -->
+      <div class="interfaz-der">
+        <div class="etiqueta-interfaz">JEFE</div>
+        <div class="envoltorio-barra-vida envoltorio-barra-enemigo">
+          <div class="barra-vida barra-vida-enemigo" id="barraVidaEnemigo"></div>  <!-- Barra roja -->
+        </div>
+        <div class="texto-vida" id="textoVidaEnemigo">💀 100</div>
+      </div>
+    </div>
+
+    <!-- ── ARENA DE BATALLA ── -->
+    <!-- Zona visual donde se ven el héroe y el enemigo enfrentándose -->
+    <div class="arena-batalla" id="arenaBatalla">
+      <div class="capa-fondo-arena"></div>  <!-- Imagen de fondo del nivel (se cambia con JS) -->
+
+      <!-- Enemigo (jefe): se posiciona a la derecha de la arena -->
+      <div class="contenedor-enemigo" id="contenedorEnemigo">
+        <div class="nombre-enemigo" id="nombreEnemigo">Boss</div>    <!-- Nombre del jefe -->
+        <div class="sprite-enemigo" id="spriteEnemigo">
+          <div class="interior-enemigo" id="interiorEnemigo"></div>   <!-- Imagen/emoji del jefe -->
+        </div>
+        <div class="sombra-enemigo"></div>                            <!-- Sombra decorativa -->
+      </div>
+
+      <!-- Fila de aliados: aparecen al acertar respuestas (generados con JS) -->
+      <div class="fila-aliados" id="filaAliados"></div>
+
+      <!-- Héroe jugador: se posiciona a la izquierda de la arena -->
+      <div class="contenedor-jugador" id="contenedorJugador">
+        <img
+          src="assets/general/heroe_transparente.png"
+          id="spriteJugador"
+          class="sprite-jugador"
+          alt="Héroe"
+          onerror="this.style.display='none';document.getElementById('jugadorRespaldo').style.display='block';"
+          style="width:clamp(100px,22vw,160px);height:auto;object-fit:contain;image-rendering:auto;"
+        />
+        <!-- Respaldo emoji si la imagen no carga -->
+        <div id="jugadorRespaldo" style="display:none;font-size:clamp(85px,20vw,130px);line-height:1;text-align:center;filter:drop-shadow(0 0 12px gold);">🦸</div>
+        <div class="nombre-jugador">¡Tú!</div>
+        <div class="sombra-jugador"></div>
+      </div>
+
+      <!-- Capa de efectos visuales: rayos, explosiones, texto de daño (generados con JS) -->
+      <div class="capa-efectos" id="capaEfectos"></div>
+    </div>
+
+    <!-- ── PANEL DE PREGUNTA ── -->
+    <!-- Zona inferior donde aparece la pregunta matemática y las 4 opciones -->
+    <div class="panel-pregunta" id="panelPregunta">
+      <div class="texto-pregunta" id="textoPregunta">¿Cuánto es...?</div>
+      <!-- cuadriculaRespuestas: grid 2x2 con 4 botones de respuesta (generados con JS) -->
+      <div class="cuadricula-respuestas" id="cuadriculaRespuestas"></div>
+      <!-- Indicador de racha de aciertos consecutivos -->
+      <div class="marcador-racha" id="marcadorRacha"></div>
+    </div>
+
+    <!-- Botón de pausa (esquina superior derecha) -->
+    <button class="btn-pausa" onclick="pausarJuego()">⏸</button>
+  </div>
+
+  <!-- ╔═══════════════════════════════════════════════════════════╗
+       ║  PANTALLA DE VICTORIA                                     ║
+       ║  Se muestra cuando el jugador gana un subnivel.           ║
+       ║  Muestra confeti, estadísticas y botones para continuar.  ║
+       ╚═══════════════════════════════════════════════════════════╝ -->
+  <div id="pantalla-victoria" class="pantalla">
+    <div class="fondo-resultado fondo-victoria">
+      <!-- contenedorConfeti: partículas de confeti generadas con JS -->
+      <div class="contenedor-confeti" id="contenedorConfeti"></div>
+    </div>
+    <div class="contenido-resultado">
+      <div class="emoji-resultado">🏆</div>
+      <h2 class="titulo-resultado titulo-victoria">¡VICTORIA!</h2>
+      <p class="subtitulo-resultado" id="mensajeVictoria">¡Derrotaste al jefe!</p>
+      <div class="estadisticas-resultado" id="estadisticasVictoria"></div>  <!-- Puntos, aciertos, racha -->
+      <div class="botones-resultado">
+        <button class="btn-jugar btn-siguiente" id="btnSiguiente" onclick="siguienteNivel()">➡ Siguiente</button>
+        <button class="btn-volver" onclick="mostrarPantalla('niveles')">🗺️ Niveles</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ╔═══════════════════════════════════════════════════════════╗
+       ║  PANTALLA DE DERROTA                                      ║
+       ║  Se muestra cuando el jugador pierde (vida = 0 o errores).║
+       ╚═══════════════════════════════════════════════════════════╝ -->
+  <div id="pantalla-derrota" class="pantalla">
+    <div class="fondo-resultado fondo-derrota"></div>
+    <div class="contenido-resultado">
+      <div class="emoji-resultado emoji-tembloroso">💀</div>
+      <h2 class="titulo-resultado titulo-derrota">¡DERROTA!</h2>
+      <p class="subtitulo-resultado">El jefe te venció… ¡pero puedes intentarlo de nuevo!</p>
+      <div class="estadisticas-resultado" id="estadisticasDerrota"></div>
+      <div class="botones-resultado">
+        <button class="btn-jugar" onclick="reintentar()">🔄 Reintentar</button>
+        <button class="btn-volver" onclick="mostrarPantalla('niveles')">🗺️ Niveles</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ╔═══════════════════════════════════════════════════════════╗
+       ║  MODAL DE PAUSA                                           ║
+       ║  Ventana emergente que aparece al pausar el juego.        ║
+       ║  BUGFIX: "Salir" ahora llama a salirDelJuego() para      ║
+       ║  detener el temporizador y limpiar el estado del juego.   ║
+       ╚═══════════════════════════════════════════════════════════╝ -->
+  <div id="modal-pausa" class="modal oculto">
+    <div class="caja-modal">
+      <h3>⏸ Pausa</h3>
+      <button class="btn-jugar" onclick="reanudarJuego()">▶ Continuar</button>
+      <!-- BUGFIX: Antes llamaba a mostrarPantalla('niveles') directamente,
+           dejando el temporizador corriendo → causaba victoria/derrota fantasma -->
+      <button class="btn-volver" onclick="salirDelJuego()">🗺️ Salir</button>
+    </div>
+  </div>
+
+  <!-- ╔═══════════════════════════════════════════════════════════╗
+       ║  OVERLAY DE MENSAJE                                       ║
+       ║  Muestra mensajes emergentes temporales sobre la pantalla ║
+       ║  (ej: "¡RACHA DE 3!", "¡ATAQUE ESPECIAL!", "¡TIEMPO      ║
+       ║  AGOTADO!"). Se genera y se oculta con JS.                ║
+       ╚═══════════════════════════════════════════════════════════╝ -->
+  <div id="superposicion-mensaje" class="superposicion-mensaje oculto">
+    <div class="caja-mensaje" id="cajaMensaje"></div>
+  </div>
+
+  <!-- ===== SCRIPTS ===== -->
+  <!-- juego.js:       Lógica principal (datos, estado, preguntas, audio, interfaz) -->
+  <!-- animaciones.js: Efectos visuales del villano, fondos y partículas -->
+  <script src="js/juego.js"></script>
+  <script src="js/animaciones.js"></script>
+</body>
+</html>
